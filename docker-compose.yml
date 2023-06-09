@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: nazarhots
+      POSTGRES_PASSWORD: task10
+      POSTGRES_DB: students_db
+    ports:
+      - "5430:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/14
