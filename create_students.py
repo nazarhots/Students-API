@@ -49,6 +49,8 @@ def create_groups(number: int = 10) -> list[Group]:
     Args:
         number (int, optional): The number of groups to create. Defaults to 10.
     """
+    if not isinstance(number, int):
+        raise TypeError("The number parameter must be an integer.")
     try:
         groups = [Group(name=generate_group_name()) for _ in range(number)]
         return groups
@@ -71,6 +73,8 @@ def create_students(number: int = 200) -> list[Student]:
     Args:
         number (int, optional): The number of students to create. Defaults to 200.
     """
+    if not isinstance(number, int):
+        raise TypeError("The number parameter must be an integer.")
     try:
         students = []
         for _ in range(number):
