@@ -32,12 +32,11 @@ def execute_sql_file(file_path: str):
     conn = db_connect()
     cursor = conn.cursor()
     try:
-        with open(file_path, 'r') as file:
+        with open(file_path, "r") as file:
             sql = file.read()
         cursor.execute(sql)
         conn.commit()
     except (psycopg2.Error, psycopg2.DatabaseError, FileNotFoundError) as error:
-        print(error)
         return f"Error: {error}"
     finally:
         cursor.close()
