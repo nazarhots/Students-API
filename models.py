@@ -14,12 +14,26 @@ class Student(Base):
 
     group = relationship("Group", backref="students")
     enrolled_courses = relationship("StudentCourse", back_populates="student")
+    
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "group_id": self.group_id,
+            "first_name": self.first_name,
+            "last_name": self.last_name
+        }
 
 class Group(Base):
     __tablename__ = "groups"
     
     id = Column(Integer, primary_key=True)
     name = Column(String(5), nullable=False)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name
+        }
 
 class Course(Base):
     __tablename__ = "courses"
@@ -30,6 +44,13 @@ class Course(Base):
 
     enrolled_students = relationship("StudentCourse", back_populates="course")
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description
+        }
+
 class StudentCourse(Base):
     __tablename__ = "students_courses"
 
@@ -38,4 +59,3 @@ class StudentCourse(Base):
 
     student = relationship("Student", back_populates="enrolled_courses")
     course = relationship("Course", back_populates="enrolled_students")
-
