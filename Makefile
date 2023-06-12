@@ -6,4 +6,3 @@ docker-status:
 
 docker-stop:
 	docker-compose down
-
