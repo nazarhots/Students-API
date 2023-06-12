@@ -19,7 +19,7 @@ class Group(Base):
     __tablename__ = "groups"
     
     id = Column(Integer, primary_key=True)
-    name = Column(String(100), nullable=False)
+    name = Column(String(5), nullable=False)
 
 class Course(Base):
     __tablename__ = "courses"

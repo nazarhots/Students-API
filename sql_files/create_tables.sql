@@ -1,6 +1,6 @@
 CREATE TABLE "groups" (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
+    name VARCHAR(5) NOT NULL
 );
 
 CREATE TABLE students (
