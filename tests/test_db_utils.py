@@ -4,7 +4,7 @@ from db_utils import db_connect, execute_sql_file
 
 def test_db_connect(monkeypatch):
     conn = MagicMock()
-    monkeypatch.setattr('db_utils.psycopg2.connect', MagicMock(return_value=conn))
+    monkeypatch.setattr("db_utils.psycopg2.connect", MagicMock(return_value=conn))
 
     result = db_connect()
 
