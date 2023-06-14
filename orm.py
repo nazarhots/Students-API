@@ -1,10 +1,11 @@
 from sqlalchemy import func
+from sqlalchemy.exc import SQLAlchemyError
 
 from models import Student, Group, Course, StudentCourse
 from app import session
 
 
-def find_groups_with_less_or_equal_student_count(number: int = 10):
+def find_groups_by_student_count(number: int = 10):
     """
     Find groups with less or equal number of students.
     
@@ -20,8 +21,8 @@ def find_groups_with_less_or_equal_student_count(number: int = 10):
             .all()
         )
         return groups
-    except Exception as error:
-        return str(error)
+    except SQLAlchemyError:
+        raise
 
 
 def find_students_by_course_name(course_name: str):
@@ -40,8 +41,8 @@ def find_students_by_course_name(course_name: str):
             .all()
         )
         return students
-    except Exception as error:
-        return str(error)
+    except SQLAlchemyError:
+        raise
 
 
 def add_new_student(group_id, first_name, last_name):
@@ -62,8 +63,8 @@ def add_new_student(group_id, first_name, last_name):
         session.add(student)
         session.commit()
         return True
-    except Exception as error:
-        raise Exception(str(error))
+    except SQLAlchemyError:
+        raise
 
 
 def delete_student_by_id(student_id: int):
@@ -80,8 +81,8 @@ def delete_student_by_id(student_id: int):
         session.delete(student)
         session.commit()
         return True
-    except Exception as error:
-        raise Exception(str(error))
+    except SQLAlchemyError:
+        raise
 
 
 def add_student_to_course(student_id: int, course_id: int):
@@ -108,8 +109,8 @@ def add_student_to_course(student_id: int, course_id: int):
         session.add(student_course)
         session.commit()
         return True
-    except Exception:
-        return False
+    except SQLAlchemyError:
+        raise
 
 
 def delete_student_from_course(student_id: int, course_id: int):
@@ -125,5 +126,5 @@ def delete_student_from_course(student_id: int, course_id: int):
         session.delete(student)
         session.commit()
         return True
-    except Exception:
-        return False
+    except SQLAlchemyError:
+        raise

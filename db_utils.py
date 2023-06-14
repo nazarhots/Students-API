@@ -51,7 +51,7 @@ def create_database_engine():
         raise Exception(f"Error during creating engine: {error}")
     
 
-def generate_db_data() -> None:
+def generate_db_data():
     """
     Generates data and inserts it into the database.
     """
