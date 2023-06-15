@@ -1,4 +1,5 @@
 import random
+
 import psycopg2
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
@@ -6,15 +7,6 @@ from sqlalchemy import create_engine
 from models import StudentCourse
 from create_students import create_courses, create_groups, create_students
 from config import dbname, user, password, host, port
-
-
-def test():
-    try:
-        db_connect()
-        print("Successfully connected to DB")
-
-    except psycopg2.Error as e:
-        print("Error:", e)
 
 
 def db_connect():
@@ -79,8 +71,5 @@ def generate_db_data():
 
             session.commit()
     except Exception as error:
+        session.close()
         raise Exception(f"Error: {error}")
-
-
-if __name__ == "__main__":
-    test()
