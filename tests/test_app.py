@@ -1,11 +1,13 @@
 from unittest.mock import patch
+
 from flask import url_for
+
 from app import app
 from models import Student
 from config import app_server_name
 
-app.config["SERVER_NAME"] = app_server_name
 
+app.config["SERVER_NAME"] = app_server_name
 
 @patch("app.session.query")
 @patch("app.paginate")
@@ -14,15 +16,14 @@ def test_get_all_students(mock_paginate, mock_query, client):
         Student(id=1, group_id=1, first_name="Some", last_name="Name"),
         Student(id=2, group_id=2, first_name="Another", last_name="Name"),
     ]
-    mock_query.return_value = mock_result
-    mock_paginate.return_value.items = mock_result
-
-    response = client.get(url_for("get_all_students"))
-
     expected_result = [
         {"first_name": "Some", "group_id": 1, "id": 1, "last_name": "Name"},
         {"first_name": "Another", "group_id": 2, "id": 2, "last_name": "Name"}
     ]
+    mock_query.return_value = mock_result
+    mock_paginate.return_value.items = mock_result
+
+    response = client.get(url_for("get_all_students"))
 
     assert response.status_code == 200
     assert response.json == expected_result
@@ -80,7 +81,7 @@ def test_update_student_error(client_get_json_exeption):
 
 @patch("app.session.delete")
 @patch("app.session.query")
-def test_delete_student(mock_query, mock_delete, client, student):
+def test_delete_student(mock_query, mock_delete, client):
     response = client.delete(url_for("delete_student", student_id=1))
 
     assert response.status_code == 200

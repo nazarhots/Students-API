@@ -1,4 +1,5 @@
 from unittest.mock import MagicMock
+
 from db_utils import db_connect, execute_sql_file
 
 

@@ -14,7 +14,7 @@ def test_generate_group_name():
     assert letters.isalpha()
     assert hyphen == "-"
     assert number.isnumeric()
-    
+
 
 @pytest.mark.parametrize("course", ["Mathematics", "Computer Science", "English"])
 def test_courses_description(course):

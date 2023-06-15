@@ -1,7 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_restful import Api
 from sqlalchemy_pagination import paginate
-
 from sqlalchemy.orm import sessionmaker
 
 from db_utils import create_database_engine
@@ -81,6 +80,3 @@ def delete_student(student_id):
         return jsonify({"Error": str(error)}), 500
     finally:
         session.close()
-
-if __name__ == "__main__":
-    app.run(debug=True)

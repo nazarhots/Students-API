@@ -20,8 +20,8 @@ def generate_group_name() -> str:
     number = "{:02d}".format(random.randrange(1, 99))
     group_name = f"{letters}-{number}"
     return group_name
-    
-    
+
+
 def courses_description() -> dict:
     courses = {
         "Mathematics": "Study of numbers, quantity, and space",

@@ -1,4 +1,4 @@
-GET http://localhost:5000/api/v1/students
+GET http://localhost:5000/api/v1/students?per_page=300
 Content-Type: application/json
 
 ##################
@@ -7,20 +7,20 @@ Content-Type: application/json
 
 {
   "group_id": "3",
-  "first_name": "Nazarrr",
+  "first_name": "Nazarr",
   "last_name": "Hots"
 }
 
 ##################
-PUT http://localhost:5000/api/v1/students/202
+PUT http://localhost:5000/api/v1/students/201
 Content-Type: application/json
 
 {
-  "group_id": "4",
+  "group_id": "3",
   "first_name": "Nazar",
   "last_name": "Hots"
 }
 
 ##################
-DELETE http://localhost:5000/api/v1/students/203
+DELETE http://localhost:5000/api/v1/students/201
 Content-Type: application/json
