@@ -1,5 +1,6 @@
 from sqlalchemy import func
 from sqlalchemy.exc import SQLAlchemyError
+from psycopg2 import OperationalError
 
 from models import Student, Group, Course, StudentCourse
 from app import session
@@ -21,7 +22,7 @@ def find_groups_by_student_count(number: int = 10):
             .all()
         )
         return groups
-    except SQLAlchemyError:
+    except (SQLAlchemyError, OperationalError):
         raise
 
 
@@ -41,7 +42,7 @@ def find_students_by_course_name(course_name: str):
             .all()
         )
         return students
-    except SQLAlchemyError:
+    except (SQLAlchemyError, OperationalError):
         raise
 
 
@@ -63,7 +64,7 @@ def add_new_student(group_id, first_name, last_name):
         session.add(student)
         session.commit()
         return True
-    except SQLAlchemyError:
+    except (SQLAlchemyError, OperationalError):
         raise
 
 
@@ -81,7 +82,7 @@ def delete_student_by_id(student_id: int):
         session.delete(student)
         session.commit()
         return True
-    except SQLAlchemyError:
+    except (SQLAlchemyError, OperationalError):
         raise
 
 
@@ -99,17 +100,17 @@ def add_student_to_course(student_id: int, course_id: int):
         student_in_course = (
             session.query(StudentCourse)
             .filter(StudentCourse.student_id == student_id, StudentCourse.course_id == course_id)
-            .first()
+            .all()
         )
         if not student or not course:
-            return "Invalid data. Please check student ID and course ID"
+            raise ValueError("Invalid data. Please check student ID and course ID")
         if student_in_course:
-            return "Student already in this course"
+            raise ValueError("Student already in this course")
         student_course = StudentCourse(student_id=student_id, course_id=course_id)
         session.add(student_course)
         session.commit()
         return True
-    except SQLAlchemyError:
+    except (SQLAlchemyError, OperationalError):
         raise
 
 
@@ -123,8 +124,10 @@ def delete_student_from_course(student_id: int, course_id: int):
     """
     try:
         student = session.query(StudentCourse).filter(StudentCourse.student_id == student_id, StudentCourse.course_id == course_id).first()
+        if not student:
+            raise ValueError("Invalid data. Please check student ID and course ID")
         session.delete(student)
         session.commit()
         return True
-    except SQLAlchemyError:
+    except (SQLAlchemyError, OperationalError):
         raise
