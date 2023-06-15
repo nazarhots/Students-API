@@ -6,11 +6,11 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install require
 ```bash
 pip install -r requirements.txt
 ```
-Start Docker using make file:
+Start *Docker* using make file:
 ```bash
 make docker-start
 ```
-Generate random database data and run API server:
+Generate random database data and start the API server:
 ```bash
 python main.py
 ```
