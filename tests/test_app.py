@@ -119,7 +119,7 @@ def test_delete_student_id_not_found(mock_query):
 
 @patch("app.session.query", return_value=Exception)
 def test_delete_student_error(mock_query):
-    with app.app_context():
+    with app.test_request_context():
         with app.test_client() as client:
             response = client.delete(url_for("delete_student", student_id=234))
 
