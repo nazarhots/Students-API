@@ -7,3 +7,4 @@ if __name__ == "__main__":
     execute_sql_file(create_table_path)
     generate_db_data()
     app.run()
+    
