@@ -1,6 +1,6 @@
 import pytest
 
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 from models import Student
 from app import app
@@ -32,22 +32,3 @@ def client():
     with app.test_request_context():
         with app.test_client() as client:
             yield client
-
-
-@pytest.fixture
-def client_get_json_exeption():
-    with app.test_request_context():
-        with patch("app.request.get_json", return_value=Exception):
-            with app.test_client() as client:
-                yield client
-                
-@pytest.fixture
-def client_get_json_with_student_data():
-    with app.test_request_context():
-        with patch("app.request.get_json", return_value={
-                                            "group_id": 1,
-                                            "first_name": "Guido",
-                                            "last_name": "Rossum"
-                                        }):
-            with app.test_client() as client:
-                yield client
