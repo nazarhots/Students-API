@@ -16,6 +16,8 @@ STUDENTS_PER_PAGE = 10
 
 
 class StudentsListResource(Resource):
+    """Resource for retrieving a list of students or creating a new student. """
+    
     def get(self):
         page = request.args.get("page", default=1, type=int)
         per_page = request.args.get("per_page", default=STUDENTS_PER_PAGE, type=int)
@@ -47,7 +49,9 @@ class StudentsListResource(Resource):
 
 
 class StudentResource(Resource):
-    def put(self, student_id):
+    """Resource for updating and deleting student information. """
+    
+    def put(self, student_id: int):
         parser = reqparse.RequestParser()
         parser.add_argument("group_id", type=int, required=True)
         parser.add_argument("first_name", type=str, required=True)
@@ -69,7 +73,7 @@ class StudentResource(Resource):
             return {"Error": str(error)}, 500
 
         
-    def delete(self, student_id):
+    def delete(self, student_id: int):
         try:
             student = session.query(Student).get(student_id)
             if not student:
