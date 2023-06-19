@@ -3,10 +3,8 @@ services:
   db:
     image: postgres
     restart: always
-    environment:
-      POSTGRES_USER: nazarhots
-      POSTGRES_PASSWORD: task10
-      POSTGRES_DB: students_db
+    env_file:
+      - ./.env
     ports:
       - "5430:5432"
     volumes:
