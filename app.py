@@ -109,7 +109,3 @@ class StudentResource(Resource):
 
 api.add_resource(StudentsListResource, "/api/v1/students")
 api.add_resource(StudentResource, "/api/v1/students/<int:student_id>")
-
-
-if __name__ == "__main__":
-    app.run(debug=True)

@@ -71,10 +71,12 @@ def generate_db_data():
             selected_courses = random.sample(all_courses, num_courses)
             student.group = group
             session.flush()
-
+            
             for course in selected_courses:
                 student_course = StudentCourse(student_id=student.id, course_id=course.id)
                 session.add(student_course)
 
-                session.commit()
-                return True
+        
+        session.commit()
+        return True
+
