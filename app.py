@@ -5,29 +5,33 @@ from sqlalchemy.orm import sessionmaker
 
 from db_utils import create_database_engine
 from models import Student
+from logger.logger import create_logger
 
 
 app = Flask(__name__)
 api = Api(app)
 Session = sessionmaker(bind=create_database_engine())
 session = Session()
+logger = create_logger()
 
 STUDENTS_PER_PAGE = 10
 
+error_msg = "An unexpected error has occurred, and our team is currently investigating the issue."
 
 class StudentsListResource(Resource):
     """Resource for retrieving a list of students or creating a new student. """
     
     def get(self):
-        page = request.args.get("page", default=1, type=int)
-        per_page = request.args.get("per_page", default=STUDENTS_PER_PAGE, type=int)
+        page = request.args.get("page", default=1)
+        per_page = request.args.get("per_page", default=STUDENTS_PER_PAGE)
         try:
             query = session.query(Student)
             pagination = paginate(query, page, per_page)
             result = [student.to_dict() for student in pagination.items]
             return result
         except Exception as error:
-            return {"Error": str(error)}, 500
+            logger.error(str(error))
+            return error_msg, 500
     
     def post(self):
         parser = reqparse.RequestParser()
@@ -44,7 +48,8 @@ class StudentsListResource(Resource):
             return f"Student {args['first_name']} created successfully"
         except Exception as error:
             session.rollback()
-            return {"Error": str(error)}, 500
+            logger.error(str(error))
+            return error_msg, 500
 
 
 
@@ -70,7 +75,8 @@ class StudentResource(Resource):
             return f"Student with ID {student_id} updated successfully"
         except Exception as error:
             session.rollback()
-            return {"Error": str(error)}, 500
+            logger.error(str(error))
+            return error_msg, 500
 
         
     def delete(self, student_id: int):
@@ -83,7 +89,8 @@ class StudentResource(Resource):
             return f"Student with ID {student_id} deleted successfully"
         except Exception as error:
             session.rollback()
-            return {"Error": str(error)}, 500
+            logger.error(str(error))
+            return error_msg, 500
 
 
 api.add_resource(StudentsListResource, "/api/v1/students")

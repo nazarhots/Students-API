@@ -3,6 +3,7 @@ from unittest.mock import patch
 from flask import url_for
 
 from models import Student
+from app import error_msg
 
 
 @patch("app.session.query")
@@ -30,7 +31,7 @@ def test_studentslistresource_get_error(mock_query, client):
     response = client.get(url_for("studentslistresource"))
 
     assert response.status_code == 500
-    assert "Error" in response.text
+    assert error_msg in response.text
 
 
 @patch("app.session.add")
@@ -46,7 +47,7 @@ def test_studentslistresource_post_error(mock_add, client, student_data):
     response = client.post(url_for("studentslistresource"), json=student_data)
 
     assert response.status_code == 500
-    assert "Error" in response.json
+    assert error_msg in response.json
 
 
 @patch("app.session.query")
@@ -71,7 +72,7 @@ def test_studentresource_put_error(mock_add, client, student_data):
     response = client.put(url_for("studentresource", student_id=123), json=student_data)
 
     assert response.status_code == 500
-    assert "Error" in response.json
+    assert error_msg in response.json
 
 
 @patch("app.session.delete")
@@ -95,4 +96,4 @@ def test_studentresource_delete_error(mock_query, client):
     response = client.delete(url_for("studentresource", student_id=234))
 
     assert response.status_code == 500
-    assert "Error" in response.json
+    assert error_msg in response.json

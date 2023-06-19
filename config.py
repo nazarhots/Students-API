@@ -14,6 +14,7 @@ port = os.getenv("DB_PORT")
 
 # Paths
 create_table_path = os.getenv("CREATE_TABLE_PATH")
+logger_path = os.getenv("LOGGER_PATH")
 
 # Config
 app_server_name = os.getenv("APP_SERVER_NAME")
