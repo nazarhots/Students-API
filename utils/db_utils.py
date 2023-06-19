@@ -25,6 +25,7 @@ def db_connect():
                 )
     return conn
 
+
 @retry_db_operation
 def execute_sql_file(file_path: str):
     conn = db_connect()
@@ -75,8 +76,5 @@ def generate_db_data():
             for course in selected_courses:
                 student_course = StudentCourse(student_id=student.id, course_id=course.id)
                 session.add(student_course)
-
-        
         session.commit()
         return True
-

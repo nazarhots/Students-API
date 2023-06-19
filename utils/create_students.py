@@ -1,8 +1,8 @@
 import string
 import random
 
-from names import get_full_name
 import sqlalchemy.exc
+from names import get_full_name
 
 from models import Student, Group, Course
 
