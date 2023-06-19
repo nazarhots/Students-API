@@ -1,4 +1,4 @@
-from db_utils import execute_sql_file, generate_db_data
+from utils.db_utils import execute_sql_file, generate_db_data
 from config import create_table_path
 from app import app
 

@@ -1,11 +1,11 @@
 from unittest.mock import MagicMock
 
-from db_utils import db_connect, execute_sql_file
+from utils.db_utils import db_connect, execute_sql_file
 
 
 def test_db_connect(monkeypatch):
     conn = MagicMock()
-    monkeypatch.setattr("db_utils.psycopg2.connect", MagicMock(return_value=conn))
+    monkeypatch.setattr("utils.db_utils.psycopg2.connect", MagicMock(return_value=conn))
 
     result = db_connect()
 

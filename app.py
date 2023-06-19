@@ -3,9 +3,10 @@ from flask_restful import Api, Resource, reqparse
 from sqlalchemy_pagination import paginate
 from sqlalchemy.orm import sessionmaker
 
-from db_utils import create_database_engine
+from utils.db_utils import create_database_engine
 from models import Student
 from logger.logger import create_logger
+from utils.validation import validate_empty_values
 
 
 app = Flask(__name__)
@@ -39,10 +40,21 @@ class StudentsListResource(Resource):
         parser.add_argument("first_name", type=str, required=True)
         parser.add_argument("last_name", type=str, required=True)
         args = parser.parse_args()
+        
+        group_id = args["group_id"]
+        first_name = args["first_name"]
+        last_name = args["last_name"]
+        
+        validation_result = validate_empty_values(group_id, first_name, last_name)
+        if validation_result:
+            logger.info(
+                f"Client sent bad args, group_id - {group_id}, first_name - {first_name}, last_name - {last_name}")
+            return validation_result
+        
         try:
-            new_student = Student(group_id=args["group_id"],
-                                    first_name=args["first_name"],
-                                    last_name=args["last_name"])
+            new_student = Student(group_id=group_id,
+                                    first_name=first_name,
+                                    last_name=last_name)
             session.add(new_student)
             session.commit()
             return f"Student {args['first_name']} created successfully"
@@ -62,15 +74,25 @@ class StudentResource(Resource):
         parser.add_argument("first_name", type=str, required=True)
         parser.add_argument("last_name", type=str, required=True)
         args = parser.parse_args()
+        
+        group_id = args["group_id"]
+        first_name = args["first_name"]
+        last_name = args["last_name"]
+        
+        validation_result = validate_empty_values(group_id, first_name, last_name)
+        if validation_result:
+            logger.info(
+                f"Client sent bad args, group_id - {group_id}, first_name - {first_name}, last_name - {last_name}")
+            return validation_result
         try:
             student = session.query(Student).get(student_id)
             
             if not student:
                 return f"Student with ID {student_id} not found"
             
-            student.group_id = args["group_id"]
-            student.first_name = args["first_name"]
-            student.last_name = args["last_name"]
+            student.group_id = group_id
+            student.first_name = first_name
+            student.last_name = last_name
             session.commit()
             return f"Student with ID {student_id} updated successfully"
         except Exception as error:
@@ -95,3 +117,7 @@ class StudentResource(Resource):
 
 api.add_resource(StudentsListResource, "/api/v1/students")
 api.add_resource(StudentResource, "/api/v1/students/<int:student_id>")
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

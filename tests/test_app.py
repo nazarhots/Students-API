@@ -50,6 +50,12 @@ def test_studentslistresource_post_error(mock_add, client, student_data):
     assert error_msg in response.json
 
 
+def test_studentslistresource_post_empty_data(client, student_with_empty_data):
+    response = client.post(url_for("studentslistresource"), json=student_with_empty_data)
+    
+    assert response.status_code == 400
+
+
 @patch("app.session.query")
 def test_studentresource_put(mock_query, student, student_data, client):
     mock_query.return_value.get.return_value = student
@@ -73,6 +79,12 @@ def test_studentresource_put_error(mock_add, client, student_data):
 
     assert response.status_code == 500
     assert error_msg in response.json
+
+
+def test_studentresource_put_empty_data(client, student_with_empty_data):
+    response = client.put(url_for("studentresource", student_id=1), json=student_with_empty_data)
+    
+    assert response.status_code == 400
 
 
 @patch("app.session.delete")
