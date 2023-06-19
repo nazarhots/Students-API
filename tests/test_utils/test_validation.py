@@ -1,7 +1,8 @@
-from utils.validation import validate_empty_values
+from utils.validation import validate_values
 
-def test_validate_empty_values():
-    text, status_code = validate_empty_values("test", "")
+
+def test_validate_values():
+    text, status_code = validate_values(1, "test", "")
     
     assert text == "Values can't be empty"
     assert status_code == 400

@@ -18,3 +18,7 @@ logger_path = os.getenv("LOGGER_PATH")
 
 # Config
 app_server_name = os.getenv("APP_SERVER_NAME")
+
+# Constants
+MAX_DB_RETRIES = 3
+RETRIES_SLEEP_INTERVAL = 1

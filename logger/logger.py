@@ -11,10 +11,10 @@ def create_logger():
     logger_format = "%(asctime)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s", "%Y-%m-%d %H:%M:%S"
     path_to_logger = logger_path
 
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.DEBUG)
 
     file_handler = logging.FileHandler(path_to_logger)
-    file_handler.setLevel(logging.INFO)
+    file_handler.setLevel(logging.DEBUG)
     formatter = logging.Formatter(*logger_format)
 
     file_handler.setFormatter(formatter)

@@ -3,7 +3,7 @@ from unittest.mock import patch
 from flask import url_for
 
 from models import Student
-from app import error_msg
+from utils.decorators import error_msg
 
 
 @patch("app.session.query")
@@ -38,7 +38,7 @@ def test_studentslistresource_get_error(mock_query, client):
 def test_studentslistresource_post(mock_add, student_data, client):
     response = client.post(url_for("studentslistresource"), json=student_data)
 
-    assert response.status_code == 200
+    assert response.status_code == 201
     mock_add.assert_called_once()
 
 
@@ -62,7 +62,7 @@ def test_studentresource_put(mock_query, student, student_data, client):
 
     response = client.put(url_for("studentresource", student_id=1), json=student_data)
 
-    assert response.status_code == 200
+    assert response.status_code == 201
     assert "Student with ID 1 updated successfully" in response.text
 
 
@@ -73,8 +73,8 @@ def test_studentresource_put_id_not_found(mock_query, client, student_data):
     assert "Student with ID 234 not found" in response.text
 
 
-@patch("app.session.add", return_value = Exception)
-def test_studentresource_put_error(mock_add, client, student_data):
+@patch("app.session.query", return_value = Exception)
+def test_studentresource_put_error(mock_query, client, student_data):
     response = client.put(url_for("studentresource", student_id=123), json=student_data)
 
     assert response.status_code == 500

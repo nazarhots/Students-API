@@ -1,6 +1,6 @@
 import pytest
 
-from create_students import generate_group_name, courses_description, generate_full_name, create_groups,\
+from utils.create_students import generate_group_name, courses_description, generate_full_name, create_groups,\
     create_courses, create_students
 
 
